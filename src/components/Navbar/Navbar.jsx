@@ -1,74 +1,94 @@
-import React from "react";
-import "./Navbar.css";
-const Nav = () => {
-  return (
-    <ul className="flex text-gray-300 mx-3">
-      <li className="pr-5">
-        <a href="/One"> Movies </a>
-      </li>
-      <li className="pr-5">
-        <a href="/One">Series</a>
-      </li>
-      <li className="pr-5">
-        <a href="/One">About</a>
-      </li>
-      <li>
-        <a href="/One">Contact</a>
-      </li>
-    </ul>
-  );
-};
+import React, { useState } from 'react';
+import { Button } from './Button';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
+import Dropdown from './Dropdown';
 
-const Navbar = () => {
+function Navbar() {
+  const [click, setClick] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
+
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
+
+  const onMouseEnter = () => {
+    if (window.innerWidth < 960) {
+      setDropdown(false);
+    } else {
+      setDropdown(true);
+    }
+  };
+
+  const onMouseLeave = () => {
+    if (window.innerWidth < 960) {
+      setDropdown(false);
+    } else {
+      setDropdown(false);
+    }
+  };
+
   return (
-    <div className=" mx-auto bg-gray-900 p-5 h-20">
-      <nav className="flex justify-between md:justify-start">
-        <div>
-          <a className="text-gray-300" href="/One">
-            Logo
-          </a>
+    <>
+      <nav className='navbar'>
+        <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+          MOVIES HUB  
+          <i class='fa fa-film' />
+        </Link>
+        <div className='menu-icon' onClick={handleClick}>
+          <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
         </div>
-        <div className="hidden sm:flex">
-          <Nav />
-        </div>
-        <div className="flex sm:hidden">
-          <div className="dropdown inline-block relative hover:block">
-            <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-              <span className="mr-1">MENU</span>
-            </button>
-            <ul className="dropdown-menu  absolute hidden text-gray-700 pt-1 hover:block">
-              <li className="">
-                <a
-                  className="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                  href="/One">
-                  One
-                </a>
-              </li>
-              <li className="">
-                <a
-                  className="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                  href="/One">
-                  Two
-                </a>
-              </li>
-              <li className="">
-                <a
-                  className="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                  href="/One">
-                  Three is the magic number
-                </a>
-              </li>
-              <div className="flex">
-                <div>Login</div>
-                <div>SignUp</div>
-              </div>
-            </ul>
-          </div>
-        </div>
+        <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+          <li className='nav-item'>
+            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+              Home
+            </Link>
+          </li>
+          <li
+            className='nav-item'
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            <Link
+              to='/services'
+              className='nav-links'
+              onClick={closeMobileMenu}
+            >
+              Services <i className='fas fa-caret-down' />
+            </Link>
+            {dropdown && <Dropdown />}
+          </li>
+          <li className='nav-item'>
+            <Link
+              to='/products'
+              className='nav-links'
+              onClick={closeMobileMenu}
+            >
+              Products
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link
+              to='/contact-us'
+              className='nav-links'
+              onClick={closeMobileMenu}
+            >
+              Contact Us
+            </Link>
+          </li>
+          <li>
+            <Link
+              to='/sign-up'
+              className='nav-links-mobile'
+              onClick={closeMobileMenu}
+            >
+              Sign Up
+            </Link>
+          </li>
+        </ul>
+        <Button />
       </nav>
-      <div className="p-10"></div>
-    </div>
+    </>
   );
-};
+}
 
 export default Navbar;

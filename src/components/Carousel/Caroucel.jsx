@@ -9,7 +9,7 @@ let settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 6,
     slidesToScroll: 1,
     autoplaySpeed:3000,
     draggable:true,
@@ -28,19 +28,19 @@ export const Carousel = () => {
   const movielist = movies.map((movie) => {
     return (
 
-      <div className="max-w-sm rounded-md overflow-hidden shadow-lg px-1" key={movie.id}>
-        <div className="h-2/4 z-10">
+      <div className="h-64 max-w-sm rounded-md overflow-hidden shadow-lg px-1"  key={movie.id}>
+        <div className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 h-3/4 z-10">
           <img
-            className="w-full h-auto z-0 rounded-md"
+            className="  h-auto z-0 rounded-md "
             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
             alt="no poster"
           />
         </div>
-        <div className="h-2/4 px-6 py-4 justify-center z-20">
+        {/* <div className="h-2/4 px-6 py-4 justify-center z-20">
           <div className="z-30 font-semibold text-md mb-2 text-blue-700 hover:text-blue-500 sm:text-sm">
             {movie.title}
           </div>
-        </div>
+        </div> */}
       </div>
     );
   });
