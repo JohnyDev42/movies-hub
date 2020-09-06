@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const INITIAL_STATE = {
-    movies=null
+    movies:null
 }
 
 const fetchPopularMovies = ( state, action) => {
@@ -16,4 +16,4 @@ const reducer = (state= INITIAL_STATE, action)=>{
     }
 }
 
-export default reducer;                    
+export default reducer;                     
