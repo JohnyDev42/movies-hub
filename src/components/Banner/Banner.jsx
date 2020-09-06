@@ -8,21 +8,24 @@ const Banner = () => {
     async function getBan() {
       await axios
         .get(`popular?api_key=${key}`)
-        .then((resp) => setMovies(resp.data.results));
+        .then((resp) => setMovies(resp.data.results))
+        .catch(err=>console.log(err));
     }
     getBan();
   }, []);
   const mov = movies[Math.floor(Math.random() * 20)];
   if (typeof mov === "undefined") {
-    return <div></div>;
+    return <div>Loading...</div>;
   }
   return (
-    <div className=" bg-gray-400 h-1px { height: 1px; }">
+    <div className=" border border-black px-5 rounded-lg overflow-hidden ">
+      <div>
       <img
-        className=" object-cover h-64 opacity-75 w-full"
+        className="flex object-cover w-full h-96 opacity-75  rounded-md"
         src={`https://image.tmdb.org/t/p/original${mov.poster_path}`}
         alt="no poster"
       />
+      </div>
     </div>
   );
 };
