@@ -1,93 +1,63 @@
-import React, { useState } from 'react';
-import { Button } from './Button';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
-import Dropdown from './Dropdown';
+import React, { useState } from "react";
+import { withRouter,useHistory} from "react-router-dom";
+import "./Navbar.css";
 
-function Navbar() {
+const Navbar =(props) => {
   const [click, setClick] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const history = useHistory();
+  const clickHandler = () => setClick(!click);
 
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
+  const changeHandler = (event) =>{
+    setSearchTerm(event.target.value);
+  }
+  const searchSubmit = (event) => {
+    console.log("Submitted");
+    console.log(searchTerm);
 
-  const onMouseEnter = () => {
-    if (window.innerWidth < 960) {
-      setDropdown(false);
-    } else {
-      setDropdown(true);
-    }
-  };
-
-  const onMouseLeave = () => {
-    if (window.innerWidth < 960) {
-      setDropdown(false);
-    } else {
-      setDropdown(false);
-    }
-  };
-
+    history.push(`/search/${searchTerm}`)
+  }
   return (
-    <>
-      <nav className='navbar'>
-        <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-          MOVIES HUB  
-          <i class='fa fa-film' />
-        </Link>
-        <div className='menu-icon' onClick={handleClick}>
-          <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+    <div>
+      <nav className="flex flex-col sm:flex-row bg-blue-800 pl-5">
+        <div className="sm:w-1/4 md:w-1/3 p-4 m-1 flex justify-between">
+          <a className="text-xl text-white" href="/">MovieTorrent</a>
+          <button className="sm:hidden text-white focus:outline-none" onClick={clickHandler}>
+            MENU
+          </button>
         </div>
-        <ul className={click ? 'nav-menu active' : 'nav-menu'}>
-          <li className='nav-item'>
-            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-              Home
-            </Link>
-          </li>
-          <li
-            className='nav-item'
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            <Link
-              to='/services'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
-              Services <i className='fas fa-caret-down' />
-            </Link>
-            {dropdown && <Dropdown />}
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/products'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
-              Products
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link
-              to='/contact-us'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
-              Contact Us
-            </Link>
-          </li>
-          <li>
-            <Link
-              to='/sign-up'
-              className='nav-links-mobile'
-              onClick={closeMobileMenu}
-            >
-              Sign Up
-            </Link>
-          </li>
-        </ul>
-        <Button />
+        <div
+          className={`${
+            click ? "flex" : "hidden"
+          }  sm:w-3/4 md:w-2/3 sm:flex  flex-col sm:flex-row justify-end`}>
+          <div className=" sm:order-last m-1">
+            <form onSubmit={searchSubmit}>
+            <input
+              className="bg-gray-400 p-2 my-2 rounded-l-lg outline-none focus:bg-gray-200"
+              placeholder="search" type="text" onChange={changeHandler}
+            />
+            <button type="submit" className="bg-gray-400 p-2 my-2 rounded-r-lg focus:outline-none" onClick={searchSubmit}>
+              <i class="fa fa-search"></i>
+            </button>
+            </form>
+          </div>
+          <ul className="justify-center m-1">
+            <li className="sm:inline-flex p-4 text-white font-semibold">
+              <a href="/">Home</a>
+            </li>
+            <li className="sm:inline-flex p-4 text-white font-semibold">
+              <a href="/">Movies</a>
+            </li>
+            <li className="sm:inline-flex p-4 text-white font-semibold">
+              <a href="/">Series</a>
+            </li>
+            <li className="sm:inline-flex p-4 text-white font-semibold">
+              <a href="/">People</a>
+            </li>
+          </ul>
+        </div>
       </nav>
-    </>
+    </div>
   );
 }
 

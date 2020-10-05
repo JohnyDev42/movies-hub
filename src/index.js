@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './assets/main.css'
-import { createStore,  combineReducers } from "redux";
+import { createStore,  combineReducers,applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import moviesReducer from './store/reducers/movies'
 
 
@@ -14,11 +16,16 @@ const rootReducer = combineReducers({
 });
 
 const store = createStore(
-  rootReducer
+  rootReducer,
+  applyMiddleware(thunk)
 );
 ReactDOM.render(
   <Provider store={store}>
+    <BrowserRouter>
+    <div className="h-screen">
     <App />
+    </div>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

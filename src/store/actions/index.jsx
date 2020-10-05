@@ -1,0 +1,1 @@
+export {fetchPopularMovies,fetchNowPlayingMovies} from './movies'
